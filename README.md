@@ -20,3 +20,14 @@ this is a minimal implementation of the RAG Model for question answering.
 ```bash
    $ pip install -r requirments.txt
 ```
+
+### optional (setup your command line interface for better readability)
+```bash
+  $ export PS1="\[\033[01;32m\]\u@\h:\w\n\[\033[00m\]\$ "
+```
+
+### Setup the Environment Variables
+```bash
+   $ cp .env.example .env
+```
+then set your environment variables ^_^
