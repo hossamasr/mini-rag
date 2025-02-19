@@ -31,3 +31,8 @@ this is a minimal implementation of the RAG Model for question answering.
    $ cp .env.example .env
 ```
 then set your environment variables ^_^
+
+### To Run The FastApi Server in Dev Env
+```bash
+  $ uvicorn main:app --reload --host 0.0.0.0 --port 5000
+```
