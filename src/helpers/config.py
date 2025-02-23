@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     APP_VERSION: str
     FILE_ALLOWED_TYPES: list
     FILE_MAX_SIZE: int
+    FILE_CHUNK_SIZE : int
 
     # Ensure Pydantic loads the correct .env file dynamically
     model_config = SettingsConfigDict(env_file=str(ENV_PATH), env_file_encoding="utf-8")

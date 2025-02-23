@@ -1,4 +1,6 @@
 fastapi[standard]==0.115.8
 python-dotenv == 1.0.1
 pydantic-settings == 2.8.0
+aiofiles == 24.1.0
+
 
