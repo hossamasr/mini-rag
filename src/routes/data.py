@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from helpers.config import get_settings ,Settings
 from controllers import DataController
 from controllers import  ProjectControllers
+from .schemas.data import ProcessRequest
 import  aiofiles
 import logging
 logger=logging.getLogger('uvicorn.error')
@@ -26,7 +27,7 @@ async def upload_data(proj_id:str,file:UploadFile,
             }
         )
     project_dir_path=ProjectControllers().get_proj_path(proj_id)
-    file_path=DataController().generate_filenames(orig_name=file.filename,proj_id=proj_id)
+    file_path,file_uniqueid=DataController().generate_filenames(orig_name=file.filename,proj_id=proj_id)
     try:
         async with aiofiles.open(file_path, 'wb') as f:
             while chunk := await file.read(app_settings.FILE_CHUNK_SIZE):
@@ -45,5 +46,12 @@ async def upload_data(proj_id:str,file:UploadFile,
 
                     content={
                 "signal":ResponseSignals.FILE_UPLOADED_SUCCESSFULLY.value
+                    ,"fileid":file_uniqueid
         }
 )
+
+
+@data_router.post('/process/{proj_id}')
+async def process_endpoint(proj_id:str,req:ProcessRequest):
+    file_id=req.file_id
+    return file_id
