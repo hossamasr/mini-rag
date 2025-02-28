@@ -1,1 +1,1 @@
-from .enums import ResponseSignals
+from .enums import ResponseSignals,ProcessEnum

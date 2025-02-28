@@ -3,7 +3,7 @@ from models import ResponseSignals
 from fastapi import FastAPI,APIRouter,Depends,UploadFile,status
 from fastapi.responses import JSONResponse
 from helpers.config import get_settings ,Settings
-from controllers import DataController
+from controllers import DataController,ProcessController
 from controllers import  ProjectControllers
 from .schemas.data import ProcessRequest
 import  aiofiles
@@ -54,4 +54,12 @@ async def upload_data(proj_id:str,file:UploadFile,
 @data_router.post('/process/{proj_id}')
 async def process_endpoint(proj_id:str,req:ProcessRequest):
     file_id=req.file_id
-    return file_id
+    process_controller=ProcessController(proj_id)
+    file_content=process_controller.get_content(file_id)
+    file_chunks=process_controller.process_file_content(file_content,file_id)
+    if file_chunks is None or len(file_chunks)==0:
+        status_code=status.HTTP_400_BAD_REQUEST,
+        content={
+            "signal":ResponseSignals.PROCESSING_FAILED
+        }
+    return file_chunks
