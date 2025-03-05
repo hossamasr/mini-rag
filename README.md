@@ -36,3 +36,9 @@ then set your environment variables ^_^
 ```bash
   $ uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```
+## Run Docker Compose Services
+```bash
+  $ cd docker
+  $ cp .env.example .env
+  $ sudo docker compose up -d
+```

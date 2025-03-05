@@ -21,7 +21,7 @@ async def upload_data(request:Request,proj_id:str,file:UploadFile,
                       app_settings=Depends(get_settings)):
 
 
-    project_model=ProjectModel(db_client=request.app.db_client)
+    project_model=await ProjectModel.create_instance(db_client=request.app.db_client)
     project=await project_model.getproject_createone(proj_id)
 
 # validate the file
@@ -61,7 +61,7 @@ async def upload_data(request:Request,proj_id:str,file:UploadFile,
 @data_router.post('/process/{proj_id}')
 
 async def process_endpoint(request:Request,proj_id:str,req:ProcessRequest):
-    project_model=ProjectModel(db_client=request.app.db_client)
+    project_model=await ProjectModel.create_instance(db_client=request.app.db_client)
     project=await project_model.getproject_createone(proj_id)
     file_id=req.file_id
     do_reset=req.do_reset
@@ -73,7 +73,7 @@ async def process_endpoint(request:Request,proj_id:str,req:ProcessRequest):
         content={
             "signal":ResponseSignals.PROCESSING_FAILED
         }
-    chunk_model=ChunkModel(
+    chunk_model=await ChunkModel.create_instance(
         db_client=request.app.db_client
     )
     if do_reset == 1:
