@@ -1,3 +1,5 @@
+import os.path
+
 from fastapi import APIRouter,Depends,UploadFile,status,Request
 from models.enums.ResponseEnums import ResponseSignals
 from fastapi.responses import JSONResponse
@@ -7,7 +9,10 @@ from controllers import  ProjectControllers
 from models.projectmodel import ProjectModel
 from .schemas.data import ProcessRequest
 from models.chunkModel import ChunkModel
-from models.db_schemas import DataChunk
+from models.db_schemas import DataChunk ,Asset
+from models.Asset_Model import AssetModel
+from models.enums.asset_enum import AssetType
+
 import  aiofiles
 import logging
 logger=logging.getLogger('uvicorn.error')
@@ -48,12 +53,19 @@ async def upload_data(request:Request,proj_id:str,file:UploadFile,
                 "signal": "Error In Uploading Please Contact Support"
             }
         )
-
+    #store assets into db
+    asset_model=await AssetModel.create_instance(db_client=request.app.db_client)
+    asset_resource=Asset(    asset_object_id=project.id,
+    asset_type=AssetType.FILE.value,
+    asset_name=file_uniqueid,
+    asset_size=os.path.getsize(file_path)
+                             )
+    asset_record=await asset_model.create_asset(asset_resource)
     return JSONResponse(
 
                     content={
                       "signal":ResponseSignals.FILE_UPLOADED_SUCCESSFULLY.value
-                    ,"fileid":file_uniqueid
+                    ,"fileid":str(asset_record.id)
          }
 )
 
