@@ -30,8 +30,21 @@ class AssetModel(BaseDataModel):
                     result = await self.collection.insert_one(asset.model_dump(by_alias=True, exclude_unset=True))
                     asset.id = result.inserted_id
                     return asset
-    async def get_all_proj_assets(self,asset_project_id:str):
-        return await self.collection.find({
-            "asset_object_id":ObjectId(asset_project_id) if isinstance(asset_project_id,str) else asset_project_id
-
+    async def get_all_proj_assets(self,asset_project_id:str,asset_type:str):
+        record= await self.collection.find({
+            "asset_object_id":ObjectId(asset_project_id) if isinstance(asset_project_id,str) else asset_project_id,
+            "asset_type":asset_type
         }).to_list()
+        return [
+          Asset(**rec)    
+              for rec in record
+        ]
+    async def get_asset_record(self,asset_project_id:str,asset_name:str):
+        record= await self.collection.find_one({
+            "asset_object_id":ObjectId(asset_project_id) if isinstance(asset_project_id,str) else asset_project_id,
+            "asset_name":asset_name
+        }).to_list()
+   
+        if record:
+              return Asset(**record)
+        return None
