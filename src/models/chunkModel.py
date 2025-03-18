@@ -1,4 +1,3 @@
-from anaconda_project.internal.conda_api import result
 
 from .basedatamodel import BaseDataModel
 from .db_schemas import DataChunk
