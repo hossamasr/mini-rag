@@ -1,4 +1,7 @@
 
+from pickle import NONE
+
+from sqlalchemy import ResultProxy
 from .basedatamodel import BaseDataModel
 from .db_schemas import DataChunk
 from .enums.database_Enum import DBeunm
@@ -7,7 +10,7 @@ from pymongo import InsertOne
 
 
 class ChunkModel(BaseDataModel):
-    def __init__(self, db_client: object):
+    def __init__(self, db_client: dict):
         super().__init__(db_client=db_client)
         self.collection = self.db_client[DBeunm.COLLECTION_CHUNK_NAME.value]
 
@@ -59,3 +62,15 @@ class ChunkModel(BaseDataModel):
             "chunk_project_id": projid
         })
         return result.deleted_count
+    async def get_project_chunks(self,project_id:ObjectId,page_no:int=1,page_size:int=50):
+        results=await self.collection.find({
+    
+            "chunk_project_id":project_id
+        }).skip(
+            (page_no-1)*page_size
+        ).limit(page_size).to_list(length=None)
+
+        return[
+            DataChunk(**record)
+            for record in results
+        ]
