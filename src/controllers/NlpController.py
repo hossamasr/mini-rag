@@ -79,19 +79,17 @@ class NLPController(BaseController):
 
             system_prompt=self.templeate_parser.get("rag","system_prompt")
            
-            document_prompts="\n".join([
+            document_prompts = "\n".join([
+                self.templeate_parser.get("rag", "document_prompt", {
+                    "doc_num": i,
+                    "chunk_text": doc.text
+                })
+                for i, doc in enumerate(retrievedDocuments)
+            ])
+            footer_prompt=self.templeate_parser.get("rag","footer_prompts",{
+                "question":query
 
-                    document_prompts.append(
-                   self.templeate_parser.get("rag","document_prompt",{
-                       "doc_num":i,
-                       "chunk_text":doc.text
-                   })
-               )
-                           for i,doc in enumerate(retrievedDocuments):
-
-            ]
-            )
-            footer_prompt=self.templeate_parser.get("rag","footer_prompts")
+            })
             chat_hsitroy=[
                 self.generation_client.construct_prompt(
                     prompt=system_prompt,
