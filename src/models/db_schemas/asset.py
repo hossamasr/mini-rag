@@ -1,7 +1,7 @@
-formafrom pydantic import BaseModel, Field, validator
-from typing import Optional
-from bson.objectid import ObjectId
 from datetime import datetime, timezone
+from bson.objectid import ObjectId
+from typing import Optional
+formafrom pydantic import BaseModel, Field, validator
 
 
 class Asset(BaseModel):
