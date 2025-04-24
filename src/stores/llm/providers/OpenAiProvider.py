@@ -26,6 +26,7 @@ class OpenaiProvider(LLMInterface):
             base_url=self.base_url
 
         )
+        self.enums = OpenAiEnumst
         self.logger = logging.getLogger(__name__)
 
     def set_generation_model(self, model_id: str):

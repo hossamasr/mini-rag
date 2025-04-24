@@ -40,6 +40,8 @@ class Settings(BaseSettings):
     VECTOR_DB_PATH: str
     VECTOR_DB_DISTANCE_METHOD: Optional[str] = None
 
+    DEFAULT_LANG: str = 'en'
+
     # Ensure Pydantic loads the correct .env file dynamically
     model_config = SettingsConfigDict(
         env_file=str(ENV_PATH), env_file_encoding="utf-8")

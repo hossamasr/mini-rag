@@ -2,9 +2,9 @@ from enum import Enum
 
 
 class VectordbEnum(Enum):
-    QDRANT="QDRANT"
+    QDRANT = "QDRANT"
 
 
 class DistanceMethodEnum(Enum):
-    COSINE="cosine"
-    DOT="dot"
+    COSINE = "cosine"
+    DOT = "dot"

@@ -1,4 +1,4 @@
-from enum import Enum
+ffrom enum import Enum
 
 
 class AssetType(Enum):
