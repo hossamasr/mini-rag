@@ -5,6 +5,12 @@ aiofiles == 24.1.0
 PyMuPdf==1.25.3
 langchain==0.3
 motor==3.7.0
-openai==1.66.3
+openai==1.75.0
 cohere== 5.14.0
 qdrant-client==1.13.0
+SQLAlchemy== 2.0.41
+asyncpg==0.30.0
+prometheus-client==0.22.1
+
+starlette-exporter== 0.23.0
+fastapi-health ==0.4.0
